@@ -1,0 +1,458 @@
+1. Show the structure of the Departments Table.
+
+SQL> desc dept;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- --------------
+ DEPTNO                                    NOT NULL NUMBER(2)
+ DNAME                                              VARCHAR2(14)
+ LOC                                                VARCHAR2(13)
+
+2. Select all data from the Departments Table.
+
+SQL> select * from dept;
+
+    DEPTNO DNAME          LOC
+---------- -------------- -------------
+        10 ACCOUNTING     NEW YORK
+        20 RESEARCH       DALLAS
+        30 SALES          CHICAGO
+        40 OPERATIONS     BOSTON
+
+3. Write a query to display the employee name, job code, hiredate and employee number for
+   each employee, with employee number appearing first. Provide an alias STARTDATE for the
+   hiredate column.
+
+SQL> select empno,ename,job,hiredate "START DATE" from emp;
+
+     EMPNO ENAME      JOB       START DAT
+---------- ---------- --------- ---------
+      7369 SMITH      CLERK     17-DEC-80
+      7499 ALLEN      SALESMAN  20-FEB-81
+      7521 WARD       SALESMAN  22-FEB-81
+      7566 JONES      MANAGER   02-APR-81
+      7654 MARTIN     SALESMAN  28-SEP-81
+      7698 BLAKE      MANAGER   01-MAY-81
+      7782 CLARK      MANAGER   09-JUN-81
+      7788 SCOTT      ANALYST   19-APR-87
+      7839 KING       PRESIDENT 17-NOV-81
+      7844 TURNER     SALESMAN  08-SEP-81
+      7876 ADAMS      CLERK     23-MAY-87
+      7900 JAMES      CLERK     03-DEC-81
+      7902 FORD       ANALYST   03-DEC-81
+      7934 MILLER     CLERK     23-JAN-82
+
+14 rows selected.
+
+4. Display the Employee name concatenated with JOB ID, separated by a comma and space and
+   name the column Employee and Title.
+
+SQL> select ename||' , '||' '||job "Employee and Title" from emp;
+
+Employee and Title
+-----------------------
+SMITH ,  CLERK
+ALLEN ,  SALESMAN
+WARD ,  SALESMAN
+JONES ,  MANAGER
+MARTIN ,  SALESMAN
+BLAKE ,  MANAGER
+CLARK ,  MANAGER
+SCOTT ,  ANALYST
+KING ,  PRESIDENT
+TURNER ,  SALESMAN
+ADAMS ,  CLERK
+
+Employee and Title
+-----------------------
+JAMES ,  CLERK
+FORD ,  ANALYST
+MILLER ,  CLERK
+
+14 rows selected.
+
+
+SQL> select distinct job from emp;
+
+JOB
+---------
+ANALYST
+CLERK
+MANAGER
+PRESIDENT
+SALESMAN
+
+
+SQL> select empno,ename,sal,sal*12 "Annual Salary" from emp;
+
+     EMPNO ENAME             SAL Annual Salary
+---------- ---------- ---------- -------------
+      7369 SMITH             800          9600
+      7499 ALLEN            1600         19200
+      7521 WARD             1250         15000
+      7566 JONES            2975         35700
+      7654 MARTIN           1250         15000
+ 
+SQL> select ename, sal from emp where sal>3500;
+
+ENAME             SAL
+---------- ----------
+KING             5000
+
+SQL> select ename, sal from emp where sal<1000 or sal>3000;
+
+ENAME             SAL
+---------- ----------
+SMITH             800
+KING             5000
+JAMES             950
+
+SQL> select ename,sal from emp where sal not between 1000 and 3000;
+
+ENAME             SAL
+---------- ----------
+SMITH             800
+KING             5000
+JAMES             950
+
+
+SQL> select ename,job,hiredate from emp
+    where hiredate between '01-feb-1981' and '01-may-1985'
+    order by hiredate;
+
+ENAME      JOB       HIREDATE
+---------- --------- ---------
+ALLEN      SALESMAN  20-FEB-81
+WARD       SALESMAN  22-FEB-81
+JONES      MANAGER   02-APR-81
+BLAKE      MANAGER   01-MAY-81
+CLARK      MANAGER   09-JUN-81
+TURNER     SALESMAN  08-SEP-81
+
+SQL> select ename,deptno from emp
+  2  where deptno in (20,50) 
+  3  order by ename;
+
+ENAME          DEPTNO
+---------- ----------
+ADAMS              20
+FORD               20
+JONES              20
+SCOTT              20
+SMITH              20
+
+
+SQL> select ename "Employee", Deptno "Department", Sal "Monthly Salary"
+    from emp
+    where deptno in (20,50)
+    and sal between 3000 and 5000;
+ 
+Employee   Department Monthly Salary
+---------- ---------- --------------
+SCOTT              20           3000
+FORD               20           3000
+
+
+SQL> select ename,hiredate from emp
+    where hiredate between '01-jan-1982' and '31-dec-1982';
+
+ENAME      HIREDATE
+---------- ---------
+MILLER     23-JAN-82
+
+
+SQL> select ename, job from emp
+    where mgr is null;
+
+ENAME      JOB
+---------- ---------
+KING       PRESIDENT
+
+SQL> select ename, sal,comm from emp
+    where comm is not null 
+                         order by sal desc;
+
+ENAME             SAL       COMM
+---------- ---------- ----------
+ALLEN            1600        300
+TURNER           1500          0
+WARD             1250        500
+MARTIN           1250       1400
+
+
+
+*************************************************week 2************************
+
+SQL>  select ename from emp
+  2   where ename like '_A%';
+
+ENAME
+----------
+WARD
+MARTIN
+JAMES
+
+
+SQL> select empno,ename,sal,(sal+sal*0.15) "New Salary" from emp;
+
+     EMPNO ENAME             SAL New Salary
+---------- ---------- ---------- ----------
+      7369 SMITH             800        920
+      7499 ALLEN            1600       1840
+      7521 WARD             1250     1437.5
+      7566 JONES            2975    3421.25
+      7654 MARTIN           1250     1437.5
+      7698 BLAKE            2850     3277.5
+      7782 CLARK            2450     2817.5
+      7788 SCOTT            3000       3450
+      7839 KING             5000       5750
+      7844 TURNER           1500       1725
+      7876 ADAMS            1100       1265
+
+     EMPNO ENAME             SAL New Salary
+---------- ---------- ---------- ----------
+      7900 JAMES             950     1092.5
+      7902 FORD             3000       3450
+      7934 MILLER           1300       1495
+
+14 rows selected.
+
+
+
+SQL> select empno, ename, sal, (sal+sal*0.15)-sal "Increase" from emp;
+
+     EMPNO ENAME             SAL   Increase
+---------- ---------- ---------- ----------
+      7369 SMITH             800        120
+      7499 ALLEN            1600        240
+      7521 WARD             1250      187.5
+      7566 JONES            2975     446.25
+      7654 MARTIN           1250      187.5
+      7698 BLAKE            2850      427.5
+      7782 CLARK            2450      367.5
+      7788 SCOTT            3000        450
+      7839 KING             5000        750
+      7844 TURNER           1500        225
+      7876 ADAMS            1100        165
+
+     EMPNO ENAME             SAL   Increase
+---------- ---------- ---------- ----------
+      7900 JAMES             950      142.5
+      7902 FORD             3000        450
+      7934 MILLER           1300        195
+
+14 rows selected.
+
+
+
+  1  select ename, hiredate, months_between(sysdate,hiredate) "Months_Worked"
+  2* from emp order by "Months_Worked"
+SQL> /
+
+ENAME      HIREDATE  Months_Worked
+---------- --------- -------------
+ADAMS      23-MAY-87    227.343768
+SCOTT      19-APR-87    228.472801
+MILLER     23-JAN-82    291.343768
+JAMES      03-DEC-81     292.98893
+FORD       03-DEC-81     292.98893
+KING       17-NOV-81    293.537317
+MARTIN     28-SEP-81    295.182478
+TURNER     08-SEP-81    295.827639
+CLARK      09-JUN-81    298.795381
+BLAKE      01-MAY-81    300.053446
+JONES      02-APR-81           301
+
+ENAME      HIREDATE  Months_Worked
+---------- --------- -------------
+WARD       22-FEB-81    302.376026
+ALLEN      20-FEB-81    302.440542
+SMITH      17-DEC-80    304.537317
+
+14 rows selected.
+
+
+SQL> select max(sal) "Maximum", min(sal) "Minimum", sum(sal) "Sum", avg(sal) "Average"
+  2  from emp;
+
+   Maximum    Minimum        Sum    Average
+---------- ---------- ---------- ----------
+      5000        800      29025 2073.21429
+
+
+
+SQL> select max(sal) "Maximum",min(sal) "Minimum", max(sal)-min(sal) "Difference" from emp;
+
+   Maximum    Minimum Difference
+---------- ---------- ----------
+      5000        800       4200
+
+
+
+SQL> select ename||' gets '||sal||' as an '||job from emp;
+
+ENAME||'GETS'||SAL||'ASAN'||JOB
+------------------------------------------------------------------------
+SMITH gets 800 as an CLERK
+ALLEN gets 1600 as an SALESMAN
+WARD gets 1250 as an SALESMAN
+JONES gets 2975 as an MANAGER
+MARTIN gets 1250 as an SALESMAN
+BLAKE gets 2850 as an MANAGER
+CLARK gets 2450 as an MANAGER
+SCOTT gets 3000 as an ANALYST
+KING gets 5000 as an PRESIDENT
+TURNER gets 1500 as an SALESMAN
+ADAMS gets 1100 as an CLERK
+
+ENAME||'GETS'||SAL||'ASAN'||JOB
+------------------------------------------------------------------------
+JAMES gets 950 as an CLERK
+FORD gets 3000 as an ANALYST
+MILLER gets 1300 as an CLERK
+
+14 rows selected.
+
+
+
+
+SQL> select upper('siva'), lower('SIVA'), initcap('sIVA') from dual;
+
+UPPE LOWE INIT
+---- ---- ----
+SIVA siva Siva
+
+SQL> select concat('Good','Day');
+select concat('Good','Day')
+                          *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected
+
+
+SQL> select concat('Good','Day') from dual;
+
+CONCAT(
+-------
+GoodDay
+
+SQL> select length('GoodDay') from dual;
+
+LENGTH('GOODDAY')
+-----------------
+                7
+
+SQL> select substr('GoodDay',2,4) from dual;
+
+SUBS
+----
+oodD
+
+SQL> select instr('GoodDay','d') from dual;
+
+INSTR('GOODDAY','D')
+--------------------
+                   4
+
+SQL> select trim('G' from 'GoodDay') from dual;
+
+TRIM('
+------
+oodDay
+
+
+
+SQL> select round(45.296,2) from dual;
+
+ROUND(45.296,2)
+---------------
+           45.3
+
+SQL> select trunc(45.296,2) from dual;
+
+TRUNC(45.296,2)
+---------------
+          45.29
+
+SQL> select ceil(21.89) from dual;
+
+CEIL(21.89)
+-----------
+         22
+
+SQL> select floor(21.89) from dual;
+
+FLOOR(21.89)
+------------
+          21
+
+SQL> select mod(1600,300) from dual;
+
+MOD(1600,300)
+-------------
+          100
+
+
+
+SQL> select sal, comm, nvl2(comm,sal+comm,0) from emp;
+
+       SAL       COMM NVL2(COMM,SAL+COMM,0)
+---------- ---------- ---------------------
+       800                                0
+      1600        300                  1900
+      1250        500                  1750
+      2975                                0
+      1250       1400                  2650
+      2850                                0
+      2450                                0
+      3000                                0
+      5000                                0
+      1500          0                  1500
+      1100                                0
+
+       SAL       COMM NVL2(COMM,SAL+COMM,0)
+---------- ---------- ---------------------
+       950                                0
+      3000                                0
+      1300                                0
+
+14 rows selected.
+
+
+SQL> select to_char(sysdate, 'fm Day Mon YYYY') from dual;
+
+TO_CHAR(SYSDATE,'FM
+-------------------
+ Tuesday May 2006
+
+
+
+SQL>  select to_char(sal, '$99,999.99') from emp where ename='SMITH';
+
+TO_CHAR(SAL
+-----------
+    $800.00
+
+
+
+SQL> select sal,comm,coalesce(comm,sal,0) from emp;
+
+       SAL       COMM COALESCE(COMM,SAL,0)
+---------- ---------- --------------------
+       800                             800
+      1600        300                  300
+      1250        500                  500
+      2975                            2975
+      1250       1400                 1400
+      2850                            2850
+      2450                            2450
+      3000                            3000
+      5000                            5000
+      1500          0                    0
+      1100                            1100
+
+       SAL       COMM COALESCE(COMM,SAL,0)
+---------- ---------- --------------------
+       950                             950
+      3000                            3000
+      1300                            1300
+
+14 rows selected.

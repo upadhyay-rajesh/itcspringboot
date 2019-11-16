@@ -5,4 +5,21 @@
 	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 	http://www.springframework.org/schema/context
 	http://www.springframework.org/schema/context/spring-context-2.5.xsd " >
+	
+	<ctx:annotation-config></ctx:annotation-config>
+	
+	<ctx:component-scan base-package="com.spring_core"></ctx:component-scan>
+	
+	<!--
+	<bean id="abc" class="com.spring_core.Trainer">
+	</bean>
+	
+	<bean id="def" class="com.spring_core.Trainees">
+		 <property name="ii">
+			<ref bean="abc" />
+		</property> 
+	</bean>
+	-->
+	
+	
 </beans>

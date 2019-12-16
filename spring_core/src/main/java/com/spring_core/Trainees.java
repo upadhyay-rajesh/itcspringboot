@@ -15,9 +15,13 @@ public class Trainees {
 	/*public void setIi(I ii){
 		this.ii=ii;
 	}*/
+	@Autowired
+	@Qualifier("c1")
+	I ii1;
 
 	public void get(){
 		ii.teach();
+		ii1.teach();
 	}
 	public static void main(String arg[]){
 		ClassPathXmlApplicationContext ctx=new ClassPathXmlApplicationContext("test.xml");
